@@ -6,7 +6,7 @@
 /*   By: szapata- <szapata-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 09:52:53 by szapata-          #+#    #+#             */
-/*   Updated: 2025/03/24 11:56:38 by szapata-         ###   ########.fr       */
+/*   Updated: 2025/03/24 17:35:57 by szapata-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,7 @@ void	*ph_routine(void *arg)
 			usleep(philo->table->ttsleep * 1000);
 		}
 		if (ft_check_routine(philo->table) != 0)
-		{
 			ft_print_lock("is thinking", philo);
-			usleep(1000);
-		}
 	}
 	return (NULL);
 }
