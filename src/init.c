@@ -28,6 +28,7 @@ void	ft_fork_init(t_table *table)
 void	ft_philo_init(t_table *table)
 {
 	int	i;
+	int	res;
 
 	i = 0;
 	while (i < table->n_philos)
@@ -40,7 +41,8 @@ void	ft_philo_init(t_table *table)
 		table->philos[i]->forks[1] = i + 1;
 		if (i + 1 == table->n_philos)
 			table->philos[i]->forks[1] = 0;
-		pthread_mutex_init(&table->philos[i]->meal_time_handle, NULL);
+		if ((res = pthread_mutex_init(&table->philos[i]->meal_time_handle, NULL)))
+			printf("error: %d\n", res);
 		i++;
 	}
 }
@@ -55,6 +57,7 @@ void	data_init(t_table *table, char **argv)
 	table->meals = -1;
 	table->finish = 0;
 	table->start = ft_get_time_now();
+	table->start_philos = 0;
 	if (*argv)
 		table->meals = ft_atoi(*argv);
 	table->philos = (t_philo **)malloc(table->n_philos * sizeof(t_philo *));

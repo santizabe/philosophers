@@ -15,17 +15,17 @@
 void	create_threads(t_table *table)
 {
 	int			i;
-	pthread_t	t;
+	pthread_t	*t;
 
 	i = 0;
 	t = 0;
 	while (i < table->n_philos)
 	{
-		t = table->philos[i]->thread;
-		pthread_create(&t, NULL, &ph_routine, table->philos[i]);
+		t = &table->philos[i]->thread;
+		pthread_create(t, NULL, &ph_routine, (void *)table->philos[i]);
 		i++;
 	}
-	pthread_create(&table->monitor, NULL, &ph_monitor, table);
+	pthread_create(&(table->monitor), NULL, &ph_monitor, (void *)table);
 }
 
 void	join_threads(t_table *table)
@@ -68,13 +68,14 @@ void	free_all(t_table *table)
 	}
 	free(table->forks);
 	free(table->philos);
+	free(table);
 }
 
 int	main(int ac, char **av)
 {
-	t_table	table;
+	t_table	*table = (t_table *)malloc(sizeof(t_table));
 
-	memset(&table, 0, sizeof(table));
+	memset(table, 0, sizeof(t_table));
 	if ((ac < 5 || ac > 6) || check_args(av))
 	{
 		ft_putstr_fd("Usage: ./philo number_of_philosophers ", 2);
@@ -82,11 +83,11 @@ int	main(int ac, char **av)
 		ft_putstr_fd("[number_of_times_each_philosopher_must_eat]\n", 2);
 		return (-1);
 	}
-	data_init(&table, av);
-	create_threads(&table);
-	join_threads(&table);
-	destroy_mutex(&table);
-	free_all(&table);
+	data_init(table, av);
+	create_threads(table);
+	join_threads(table);
+	destroy_mutex(table);
+	free_all(table);
 	return (0);
 }
 

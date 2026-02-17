@@ -1,19 +1,23 @@
 NAME = philo
 CC = cc
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -pthread -g
+SRC_DIR = src
 SRC = main.c utils.c init.c monitor.c time.c ph_routine.c checker.c
-OBJ = $(SRC:c=o)
+OBJ_DIR = obj
+INC = -Iinclude
+OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:c=o))
 
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	@$(CC) $(FLAGS) $(OBJ) -o $(NAME) 
+	@$(CC) $(FLAGS) $(OBJ) $(INC) -o $(NAME) 
 
-%.o: %.c
-	@$(CC) $(FLAGS) -c $< -o $@
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+	@mkdir -p obj
+	@$(CC) $(FLAGS) $(INC) -c $< -o $@
 
 clean:
-	@rm -f $(OBJ)
+	@rm -fr $(OBJ_DIR)
 
 fclean: clean
 	@rm -f $(NAME)

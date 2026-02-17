@@ -50,8 +50,17 @@ void	*ph_routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	if (philo->id % 2)
-		usleep(100);
+	while (1)
+	{
+		pthread_mutex_lock(&philo->table->global);
+		if (philo->table->start_philos)
+		{
+			pthread_mutex_unlock(&philo->table->global);
+			break ;
+		}
+		pthread_mutex_unlock(&philo->table->global);
+
+	}
 	while (ft_check_routine(philo->table) != 0)
 	{
 		if (ft_check_routine(philo->table) != 0)

@@ -18,6 +18,7 @@
 # include <sys/time.h>
 # include <string.h>
 # include <unistd.h>
+# include <errno.h>
 
 typedef pthread_mutex_t	t_mtx;
 typedef unsigned int	t_uint;
@@ -37,6 +38,7 @@ typedef struct s_table
 	t_mtx			global;
 	t_mtx			fin;
 	int				finish;
+	int				start_philos;
 }	t_table;
 
 typedef struct s_philo

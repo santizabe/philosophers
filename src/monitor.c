@@ -56,6 +56,10 @@ void	*ph_monitor(void *arg)
 	t_table	*table;
 
 	table = (t_table *)arg;
+
+	pthread_mutex_lock(&table->global);
+	table->start_philos = 1;
+	pthread_mutex_unlock(&table->global);
 	while (1)
 	{
 		if (!ph_are_alive(table) || ph_meals_finished(table))
